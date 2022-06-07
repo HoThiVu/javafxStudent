@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class StudentManagement extends Application {
+    boolean formSaveAddStatus = false;
     public static void main(String[] args) {
         launch(args);
     }
@@ -41,6 +42,31 @@ public class StudentManagement extends Application {
         Label lbTextID = new Label("ID");
         Label lbTextName = new Label("Name");
         Label lbTextScore = new Label("Score");
+
+
+        btnSave.setOnAction(e ->{
+            //dúng thì sẽ nhấn
+
+
+            if(formSaveAddStatus == true ){
+                Student std = new Student(Integer.parseInt(textFieldID.getText()),textFieldName.getText(),Float.parseFloat(textFieldScore.getText()));
+                db.updataStudent(std);
+                root.getChildren().remove(root.getChildren().get(1));
+
+                getDisplayStudents(root,db,textFieldID,textFieldName,textFieldScore);
+//                getDisplayStudents(vBox,db,textFieldID,textFieldName,textFieldScore);
+
+                System.out.println("edit success");
+            }
+            else {
+                Student std = new Student(Integer.parseInt(textFieldID.getText()),textFieldName.getText(),Float.parseFloat(textFieldScore.getText()));
+                db.insertStudent(std);
+                root.getChildren().remove(root.getChildren().get(1));
+
+                getDisplayStudents(root,db,textFieldID,textFieldName,textFieldScore);
+                System.out.println("add success");
+            }
+        });
         rootHbox.getChildren().addAll(lbTextID,lbTextName,lbTextScore);
 
         formVbox.getChildren().addAll(lbID,textFieldID,lbName,textFieldName,lbScore,textFieldScore,btnSave,rootHbox);
@@ -48,9 +74,7 @@ public class StudentManagement extends Application {
         textFieldID.setMaxWidth(250);
         textFieldName.setMaxWidth(250);
         textFieldScore.setMaxWidth(250);
-//        rootHbox.setSpacing(25);
 
-//        root.getChildren().addAll(rootHbox);
         root.getChildren().addAll(formVbox);
         getDisplayStudents(root,db,textFieldID,textFieldName,textFieldScore);
 
@@ -65,7 +89,7 @@ void getDisplayStudents(VBox vBox,DBConnection db, TextField textFieldID,TextFie
     VBox add = new VBox();
     for (int i = 0; i<stdList.size(); i++){
         HBox hBoxStudents = new HBox();
-//        HBox hBoxCongcu =new HBox();
+
         Button btnEdit = new Button("EDIT");
         hBoxStudents.setSpacing(10);
 
@@ -81,13 +105,14 @@ void getDisplayStudents(VBox vBox,DBConnection db, TextField textFieldID,TextFie
             getDisplayStudents(vBox,db,textFieldID,textFieldName,textFieldScore);
         });
         btnEdit.setOnAction(e->{
+            this.formSaveAddStatus = true;
             textFieldID.setText(String.valueOf(stdList.get(finalI).id));
             textFieldName.setText(String.valueOf(stdList.get(finalI).name));
             textFieldScore.setText(String.valueOf(stdList.get(finalI).score));
-//            getDisplayStudents(vBox,db,textFieldID,textFieldName,textFieldScore);
+
         });
 
-//        hBoxCongcu.getChildren().addAll();
+
         hBoxStudents.getChildren().addAll(lbID,lbName,lbScore,btnDel,btnEdit);
         add.getChildren().add(hBoxStudents);
     }
@@ -97,3 +122,7 @@ void getDisplayStudents(VBox vBox,DBConnection db, TextField textFieldID,TextFie
 
 }
     //ham get student tra ve mot list student
+
+
+//////////////////////////////////-------------------
+
