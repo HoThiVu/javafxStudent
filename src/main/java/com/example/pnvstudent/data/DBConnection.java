@@ -40,7 +40,7 @@ public class DBConnection {
         return list;
     }
     public void insertStudent(Student std){
-        String sql = "INSERT INTO students (name, score,id_student) VALUES ('"+ std.name + "',"+ std.score+ ","+std.getId_student()+")";
+        String sql = "INSERT INTO students (name, score,id_student) VALUES ('"+ std.name + "',"+ std.score+ ","+std.id+")";
         System.out.println(sql);
         try {
             connection.prepareStatement(sql).executeUpdate();

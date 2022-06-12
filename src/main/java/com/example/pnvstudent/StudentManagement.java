@@ -43,10 +43,8 @@ public class StudentManagement extends Application {
         Label lbTextName = new Label("Name");
         Label lbTextScore = new Label("Score");
 
-
         btnSave.setOnAction(e ->{
             //dúng thì sẽ nhấn
-
 
             if(formSaveAddStatus == true ){
                 Student std = new Student(Integer.parseInt(textFieldID.getText()),textFieldName.getText(),Float.parseFloat(textFieldScore.getText()));
